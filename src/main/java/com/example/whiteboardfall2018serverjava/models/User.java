@@ -1,10 +1,20 @@
 package com.example.whiteboardfall2018serverjava.models;
 
 public class User {
+	private String userId;
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
+	
+	public String getUserId() {
+		
+		return userId;
+	}
+	public void setUserId(String userId) {
+		
+		this.userId = userId;
+	}
 	public String getUsername() {
 		return username;
 	}

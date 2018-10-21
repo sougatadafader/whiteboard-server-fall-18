@@ -1,8 +1,12 @@
 package com.example.whiteboardfall2018serverjava.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Course {
 	  private int id;
 	  private String title;
+	  private List<Module> modules = new ArrayList<Module>();
 	  private User author;
 	public User getAuthor() {
 		return author;
@@ -26,5 +30,13 @@ public class Course {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public List<Module> getModules() {
+		return modules;
+	}
+	public void setModules(List<Module> modules) {
+		this.modules = modules;
+	}
 	  
 }
+
+

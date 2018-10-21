@@ -3,6 +3,13 @@ package com.example.whiteboardfall2018serverjava.models;
 public class Course {
 	  private int id;
 	  private String title;
+	  private User author;
+	public User getAuthor() {
+		return author;
+	}
+	public void setAuthor(User author) {
+		this.author = author;
+	}
 	public Course(int i, String string) {
 		id = i; title = string;
 	}

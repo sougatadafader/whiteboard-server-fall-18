@@ -7,18 +7,22 @@ public class Lesson {
 	private int id;
 	private String title;
 
-	/*
-	 * private List<Topic> lessons = new ArrayList<Lesson>();
-	 * 
-	 * 
-	 * public List<Lesson> getLessons() { return lessons; } public void
-	 * setLessons(List<Lesson> lessons) { this.lessons = lessons; }
-	 */
-	public Lesson(int i, String string) {
-			id = i; title = string;
-		}
+	private List<Topic> topics = new ArrayList<Topic>();
 
-	public Lesson() {}
+	public List<Topic> getTopics() {
+		return topics;
+	}
+	public void setTopics(List<Topic> topics) {
+		this.topics = topics;
+	}
+
+	public Lesson(int i, String string) {
+		id = i;
+		title = string;
+	}
+
+	public Lesson() {
+	}
 
 	public int getId() {
 		return id;

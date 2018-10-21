@@ -25,7 +25,7 @@ public class LessonService {
 	@Autowired
 	ModuleService moduleService;
 	@Autowired
-	CourseService courseService2;
+	CourseService courseService;
 	private List<Lesson> lessons = new ArrayList<Lesson>();
 
 	@GetMapping("/api/module/{mId}/lesson")
@@ -57,7 +57,7 @@ public class LessonService {
 	@GetMapping("/api/lesson/{lid}")
 	public Lesson findLessonById(@PathVariable("lid") int lid, HttpSession session) {
 		
-		List<Course> courses = courseService2.findAllCourses(session);
+		List<Course> courses = courseService.findAllCourses(session);
 		
 		List<Module> modules = new ArrayList<Module>();
 		Lesson reqdLesson = null;
@@ -80,7 +80,7 @@ public class LessonService {
 
 	@PutMapping("/api/lesson/{lid}")
 	public Lesson updateLesson(@PathVariable("lid") int lid, @RequestBody Lesson lesson, HttpSession session) {
-		List<Course> courses = new ArrayList<Course>(courseService2.findAllCourses(session));
+		List<Course> courses = new ArrayList<Course>(courseService.findAllCourses(session));
 		List<Module> modules = new ArrayList<Module>();
 
 		for (Course c : courses) {
@@ -104,7 +104,7 @@ public class LessonService {
 	/* Deletes Lesson whose id is lid */
 	@DeleteMapping("/api/lesson/{lid}")
 	public void deleteModule(@PathVariable("lid") int lid, HttpSession session) {
-		List<Course> courses = courseService2.findAllCourses(session);
+		List<Course> courses = courseService.findAllCourses(session);
 		List<Module> modules = new ArrayList<Module>();
 		Lesson reqdLesson = null;
 		for (Course c : courses) {

@@ -23,7 +23,7 @@ import com.example.whiteboardfall2018serverjava.models.User;
 @CrossOrigin(origins = "*")
 public class CourseService {
 	List<Course> courses = new ArrayList<Course>();
-	List<Course> resultCourses = null;
+	List<Course> resultCourses = new ArrayList<Course>();
 
 	/* Retrieves all courses authored by the currently logged in author */
 	@GetMapping("/api/course")

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.whiteboardfall2018serverjava.models.Course;
 import com.example.whiteboardfall2018serverjava.models.Module;
-import com.example.whiteboardfall2018serverjava.models.User;
 
 @RestController
 @CrossOrigin(origins = "*")

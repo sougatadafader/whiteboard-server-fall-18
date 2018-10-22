@@ -1,5 +1,163 @@
 package com.example.whiteboardfall2018serverjava.services;
 
-public class TopicService {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import com.example.whiteboardfall2018serverjava.models.Course;
+import com.example.whiteboardfall2018serverjava.models.Lesson;
+import com.example.whiteboardfall2018serverjava.models.Module;
+import com.example.whiteboardfall2018serverjava.models.Topic;
+
+@RestController
+@CrossOrigin(origins = "*")
+public class TopicService {
+	@Autowired
+	CourseService courseService;
+	@Autowired
+	ModuleService moduleService;
+	@Autowired
+	LessonService lessonService;
+	
+	private List<Topic> topics = new ArrayList<Topic>();
+
+	@GetMapping("/api/lesson/{lid}/topic")
+	public List<Topic> findAllTopics(@PathVariable("lid") int lId, HttpSession session) {
+		Lesson lesson = lessonService.findLessonById(lId, session);
+		topics = lesson.getTopics();
+		if(topics.isEmpty())
+		{
+			Topic t1 = new Topic(123,"Topic a");
+			Topic t2 = new Topic(233,"Topic b");
+			topics.add(t1);
+			topics.add(t2);
+		}
+		return topics;
+	}
+
+	@PostMapping("/api/lesson/{lid}/topic")
+	public List<Topic> createTopic(@RequestBody Topic topic, @PathVariable("lid") int lId, HttpSession session) {
+		Lesson lesson = lessonService.findLessonById(lId, session);
+		topics = lesson.getTopics();
+		int uId = (int) System.currentTimeMillis();
+		topic.setId(uId);
+		topics.add(topic);
+		return topics;
+	}
+
+	/* Retrieves Lesson whose id is lid */
+	@GetMapping("/api/topic/{tid}")
+	public Topic findTopicById(@PathVariable("tid") int tId, HttpSession session) {
+		
+		List<Course> courses = courseService.findAllCourses(session);
+		List<Module> modules = new ArrayList<Module>();
+		List<Lesson> lessons = new ArrayList<Lesson>();
+		
+		Topic reqdTopic = null;
+		for (Course c : courses) {
+			modules = c.getModules();
+			for (Module m : modules) {
+				lessons = m.getLessons();
+				for (Lesson l : lessons) {
+					topics = l.getTopics();
+					{
+						for(Topic t: topics)
+						{
+							if(t.getId() == tId)
+							{
+								reqdTopic = t;
+								return reqdTopic;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	@PutMapping("/api/topic/{tid}")
+	public Topic updateTopic(@PathVariable("tid") int tId, @RequestBody Topic topic, HttpSession session) {
+		List<Course> courses = new ArrayList<Course>(courseService.findAllCourses(session));
+		List<Module> modules = new ArrayList<Module>();
+		List<Lesson> lessons = new ArrayList<Lesson>();
+		
+		for (Course c : courses) {
+			modules = c.getModules();
+			for (Module m : modules) {
+				lessons = m.getLessons();
+				int ctr = 0;
+				for (Lesson l : lessons) {
+					topics = l.getTopics();
+					for(Topic t: topics)
+					{
+						if(t.getId()==tId)
+						{
+							topic.setId(tId);
+							topics.set(ctr, topic);
+							return topics.get(ctr);
+						}
+						ctr++;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/* Deletes Lesson whose id is lid */
+	@DeleteMapping("/api/topic/{tid}")
+	public void deleteModule(@PathVariable("tid") int tId, HttpSession session) {
+		List<Course> courses = courseService.findAllCourses(session);
+		List<Module> modules = new ArrayList<Module>();
+		List<Lesson> lessons = new ArrayList<Lesson>();
+		
+		Topic reqdTopic = null;
+		for (Course c : courses) {
+			modules = c.getModules();
+			for (Module m : modules) {
+				lessons = m.getLessons();
+				for (Lesson l : lessons) {
+					topics = l.getTopics();
+					for(Topic t: topics)
+					{
+						if(t.getId()==tId)
+						{
+							reqdTopic = t;
+							break;
+						}
+					}
+				}
+
+			}
+		}
+		if (reqdTopic != null) {
+			for (Course c : courses) {
+				modules = c.getModules();
+				{
+					for (Module m : modules) {
+						lessons = m.getLessons();
+						for(Lesson l: lessons)
+						{
+							topics = l.getTopics();
+							List<Topic> resultTopics = (List<Topic>) topics.stream().filter(x -> x.getId() != tId)
+									.collect(Collectors.toList());
+							l.setTopics(resultTopics);
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -18,9 +18,7 @@ import com.example.whiteboardfall2018serverjava.models.User;
 public class UserService {
 	
 	List<User> users = new ArrayList<User>();
-	
 	/*Return a list of all the users*/
-	
 	@GetMapping("/api/user")
 	public List<User> findAllUsers() {
 		return users;

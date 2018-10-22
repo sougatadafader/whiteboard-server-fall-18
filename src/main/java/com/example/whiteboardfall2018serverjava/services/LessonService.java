@@ -56,9 +56,7 @@ public class LessonService {
 	/* Retrieves Lesson whose id is lid */
 	@GetMapping("/api/lesson/{lid}")
 	public Lesson findLessonById(@PathVariable("lid") int lid, HttpSession session) {
-		
 		List<Course> courses = courseService.findAllCourses(session);
-		
 		List<Module> modules = new ArrayList<Module>();
 		Lesson reqdLesson = null;
 		for (Course c : courses) {

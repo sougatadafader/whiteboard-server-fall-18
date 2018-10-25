@@ -7,13 +7,7 @@ public class Course {
 	  private int id;
 	  private String title;
 	  private List<Module> modules = new ArrayList<Module>();
-	  private User author;
-	public User getAuthor() {
-		return author;
-	}
-	public void setAuthor(User author) {
-		this.author = author;
-	}
+	  
 	public Course(int i, String string) {
 		id = i; title = string;
 	}

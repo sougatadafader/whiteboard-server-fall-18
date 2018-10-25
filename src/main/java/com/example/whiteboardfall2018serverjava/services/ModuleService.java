@@ -27,8 +27,8 @@ public class ModuleService {
 	private List<Module> modules = new ArrayList<Module>();
 
 	@GetMapping("/api/course/{courseId}/module")
-	public List<Module> findModulesForCourse(@PathVariable("courseId") int courseId) {
-		Course course = courseService.findCourseById(courseId);
+	public List<Module> findModulesForCourse(@PathVariable("courseId") int courseId,HttpSession session) {
+		Course course = courseService.findCourseById(courseId,session);
 		if (modules.isEmpty()) {
 			Module m1 = new Module(123, "Module 1");
 			Module m2 = new Module(234, "Module 2");
@@ -44,8 +44,8 @@ public class ModuleService {
 	}
 
 	@PostMapping("/api/course/{courseId}/module")
-	public List<Module> createModule(@RequestBody Module module, @PathVariable("courseId") int courseId) {
-		Course course = courseService.findCourseById(courseId);
+	public List<Module> createModule(@RequestBody Module module, @PathVariable("courseId") int courseId,HttpSession session) {
+		Course course = courseService.findCourseById(courseId,session);
 		modules = course.getModules();
 		int uId = (int) System.currentTimeMillis();
 		module.setId(uId);

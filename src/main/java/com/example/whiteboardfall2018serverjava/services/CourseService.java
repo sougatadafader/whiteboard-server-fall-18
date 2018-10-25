@@ -29,26 +29,20 @@ public class CourseService {
 	@GetMapping("/api/course")
 	public List<Course> findAllCourses(HttpSession session) {
 		User currentUser = (User) session.getAttribute("currentUser");
+		if(currentUser!=null)
+		{
+			courses = currentUser.getCourses();
+		}
 		if (courses.isEmpty()) {
 
 			Course c1 = new Course(123, "cs5610");
-			c1.setAuthor(currentUser);
 			Course c2 = new Course(234, "cs5200");
-			c2.setAuthor(currentUser);
 			courses.add(c1);
 			courses.add(c2);
 			resultCourses = new ArrayList<Course>(courses);
-
-		} else {
-			resultCourses = (List<Course>) courses.stream().filter(x -> x.getAuthor() == currentUser)
-					.collect(Collectors.toList());
-			/*
-			 * for(Course c : courses) { if(c.getAuthor()==currentUser) {
-			 * resultCourses.add(c); } }
-			 */
-
-		}
-		return resultCourses;
+			return resultCourses;
+		} 
+		return courses;
 	}
 
 	/* Creates new course with current logged in faculty as its author */
@@ -58,7 +52,7 @@ public class CourseService {
 		int uId= (int)System.currentTimeMillis();
 		course.setId(uId);
 		User currentUser = (User) session.getAttribute("currentUser");
-		course.setAuthor(currentUser);
+		courses = currentUser.getCourses();
 		if ( courses.isEmpty() || !(courses.contains(course)) ) {
 			
 			courses.add(course);
@@ -71,7 +65,9 @@ public class CourseService {
 
 	/* Retrieves course whose id is cid */
 	@GetMapping("/api/course/{cid}")
-	public Course findCourseById(@PathVariable("cid") int cid) {
+	public Course findCourseById(@PathVariable("cid") int cid, HttpSession session) {
+		User currentUser = (User) session.getAttribute("currentUser");
+		courses = currentUser.getCourses();
 		Course reqdCourse = null;
 		for (Course c : courses) {
 			if (c.getId() == cid) {
@@ -83,7 +79,9 @@ public class CourseService {
 
 	/* Updates course whose id is cid */
 	@PutMapping("/api/course/{cid}")
-	public Course updateCourse(@PathVariable("cid") int cid, @RequestBody Course course) {
+	public Course updateCourse(@PathVariable("cid") int cid, @RequestBody Course course, HttpSession session) {
+		User currentUser = (User) session.getAttribute("currentUser");
+		courses = currentUser.getCourses();
 		int ctr = 0;
 		course.setId(cid);
 		for (Course c : courses) {
@@ -98,7 +96,9 @@ public class CourseService {
 
 	/* Removes course whose id is cid */
 	@DeleteMapping("/api/course/{cid}")
-	public void deleteCourse(@PathVariable("cid") int cid) {
+	public void deleteCourse(@PathVariable("cid") int cid,HttpSession session) {
+		User currentUser = (User) session.getAttribute("currentUser");
+		courses = currentUser.getCourses();
 		Course reqdCourse = null;
 		if (courses != null) {
 			for (Course c : courses) {

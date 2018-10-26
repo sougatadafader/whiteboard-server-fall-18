@@ -23,7 +23,7 @@ import com.example.whiteboardfall2018serverjava.models.Topic;
 import com.example.whiteboardfall2018serverjava.models.User;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://shrouded-cove-74042.herokuapp.com/" , allowCredentials = "true" , allowedHeaders = "*")
 public class CourseService {
 	List<Course> courses = new ArrayList<Course>();
 	List<Course> resultCourses = new ArrayList<Course>();

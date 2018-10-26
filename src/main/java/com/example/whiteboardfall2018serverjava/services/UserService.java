@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.whiteboardfall2018serverjava.models.User;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
+@CrossOrigin(origins = "https://shrouded-cove-74042.herokuapp.com/" , allowCredentials = "true" , allowedHeaders = "*")
 public class UserService {
 	
 	List<User> users = new ArrayList<User>();

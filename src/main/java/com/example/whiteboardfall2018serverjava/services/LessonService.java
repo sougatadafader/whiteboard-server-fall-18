@@ -20,7 +20,7 @@ import com.example.whiteboardfall2018serverjava.models.Lesson;
 import com.example.whiteboardfall2018serverjava.models.Module;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://shrouded-cove-74042.herokuapp.com/" , allowCredentials = "true" , allowedHeaders = "*")
 public class LessonService {
 	@Autowired
 	ModuleService moduleService;

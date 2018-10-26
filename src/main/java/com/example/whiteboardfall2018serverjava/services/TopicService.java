@@ -21,7 +21,7 @@ import com.example.whiteboardfall2018serverjava.models.Module;
 import com.example.whiteboardfall2018serverjava.models.Topic;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://shrouded-cove-74042.herokuapp.com/" , allowCredentials = "true" , allowedHeaders = "*")
 public class TopicService {
 	@Autowired
 	CourseService courseService;

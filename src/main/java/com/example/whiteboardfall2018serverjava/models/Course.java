@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
-	  private int id;
+	  private long id;
 	  private String title;
 	  private List<Module> modules = new ArrayList<Module>();
 	  
-	public Course(int i, String string) {
-		id = i; title = string;
+	public Course(long i, String string) {
+		setId(i);
+		setTitle(string);
 	}
 	public Course() {}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getTitle() {

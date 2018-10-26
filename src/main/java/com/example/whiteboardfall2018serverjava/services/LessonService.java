@@ -29,12 +29,17 @@ public class LessonService {
 	private List<Lesson> lessons = new ArrayList<Lesson>();
 
 	@GetMapping("/api/module/{mId}/lesson")
-	public List<Lesson> findLessonsForModule(@PathVariable("mId") int mId, HttpSession session) {
+	public List<Lesson> findLessonsForModule(@PathVariable("mId") long mId, HttpSession session) {
 		Module module = moduleService.findModuleById(mId, session);
 		if (lessons.isEmpty()) {
-			Lesson l1 = new Lesson(123, "Lesson 1");
-			Lesson l2 = new Lesson(234, "Lesson 2");
+			Lesson l1 = new Lesson(System.currentTimeMillis(), "Lesson 1");
+			Lesson l2 = new Lesson(System.currentTimeMillis(), "Lesson 2");
+			TopicService t1 =  new TopicService();
+			t1.findAllTopics(l1.getId(), session);
+		
 			lessons.add(l1);
+			TopicService t2 =  new TopicService();
+			t2.findAllTopics(l2.getId(), session);
 			lessons.add(l2);
 			module.setLessons(lessons);
 			return lessons;
@@ -44,18 +49,17 @@ public class LessonService {
 	}
 
 	@PostMapping("/api/module/{mId}/lesson")
-	public List<Lesson> createModule(@RequestBody Lesson lesson, @PathVariable("mId") int mId, HttpSession session) {
+	public List<Lesson> createModule(@RequestBody Lesson lesson, @PathVariable("mId") long mId, HttpSession session) {
 		Module module = moduleService.findModuleById(mId, session);
 		lessons = module.getLessons();
-		int uId = (int) System.currentTimeMillis();
-		lesson.setId(uId);
+		lesson.setId(System.currentTimeMillis());
 		lessons.add(lesson);
 		return lessons;
 	}
 
 	/* Retrieves Lesson whose id is lid */
 	@GetMapping("/api/lesson/{lid}")
-	public Lesson findLessonById(@PathVariable("lid") int lid, HttpSession session) {
+	public Lesson findLessonById(@PathVariable("lid") long lid, HttpSession session) {
 		List<Course> courses = courseService.findAllCourses(session);
 		List<Module> modules = new ArrayList<Module>();
 		Lesson reqdLesson = null;
@@ -77,7 +81,7 @@ public class LessonService {
 	}
 
 	@PutMapping("/api/lesson/{lid}")
-	public Lesson updateLesson(@PathVariable("lid") int lid, @RequestBody Lesson lesson, HttpSession session) {
+	public Lesson updateLesson(@PathVariable("lid") long lid, @RequestBody Lesson lesson, HttpSession session) {
 		List<Course> courses = new ArrayList<Course>(courseService.findAllCourses(session));
 		List<Module> modules = new ArrayList<Module>();
 
@@ -101,7 +105,7 @@ public class LessonService {
 
 	/* Deletes Lesson whose id is lid */
 	@DeleteMapping("/api/lesson/{lid}")
-	public void deleteModule(@PathVariable("lid") int lid, HttpSession session) {
+	public void deleteModule(@PathVariable("lid") long lid, HttpSession session) {
 		List<Course> courses = courseService.findAllCourses(session);
 		List<Module> modules = new ArrayList<Module>();
 		Lesson reqdLesson = null;

@@ -33,13 +33,13 @@ public class TopicService {
 	private List<Topic> topics = new ArrayList<Topic>();
 
 	@GetMapping("/api/lesson/{lid}/topic")
-	public List<Topic> findAllTopics(@PathVariable("lid") int lId, HttpSession session) {
+	public List<Topic> findAllTopics(@PathVariable("lid") long lId, HttpSession session) {
 		Lesson lesson = lessonService.findLessonById(lId, session);
 		topics = lesson.getTopics();
 		if(topics.isEmpty())
 		{
-			Topic t1 = new Topic(123,"Topic a");
-			Topic t2 = new Topic(233,"Topic b");
+			Topic t1 = new Topic(System.currentTimeMillis(),"Topic a");
+			Topic t2 = new Topic(System.currentTimeMillis(),"Topic b");
 			topics.add(t1);
 			topics.add(t2);
 		}
@@ -47,18 +47,17 @@ public class TopicService {
 	}
 
 	@PostMapping("/api/lesson/{lid}/topic")
-	public List<Topic> createTopic(@RequestBody Topic topic, @PathVariable("lid") int lId, HttpSession session) {
+	public List<Topic> createTopic(@RequestBody Topic topic, @PathVariable("lid") long lId, HttpSession session) {
 		Lesson lesson = lessonService.findLessonById(lId, session);
 		topics = lesson.getTopics();
-		int uId = (int) System.currentTimeMillis();
-		topic.setId(uId);
+		topic.setId(System.currentTimeMillis());
 		topics.add(topic);
 		return topics;
 	}
 
 	/* Retrieves Lesson whose id is lid */
 	@GetMapping("/api/topic/{tid}")
-	public Topic findTopicById(@PathVariable("tid") int tId, HttpSession session) {
+	public Topic findTopicById(@PathVariable("tid") long tId, HttpSession session) {
 		
 		List<Course> courses = courseService.findAllCourses(session);
 		List<Module> modules = new ArrayList<Module>();
@@ -88,7 +87,7 @@ public class TopicService {
 	}
 
 	@PutMapping("/api/topic/{tid}")
-	public Topic updateTopic(@PathVariable("tid") int tId, @RequestBody Topic topic, HttpSession session) {
+	public Topic updateTopic(@PathVariable("tid") long tId, @RequestBody Topic topic, HttpSession session) {
 		List<Course> courses = new ArrayList<Course>(courseService.findAllCourses(session));
 		List<Module> modules = new ArrayList<Module>();
 		List<Lesson> lessons = new ArrayList<Lesson>();
@@ -118,7 +117,7 @@ public class TopicService {
 
 	/* Deletes Lesson whose id is lid */
 	@DeleteMapping("/api/topic/{tid}")
-	public void deleteModule(@PathVariable("tid") int tId, HttpSession session) {
+	public void deleteTopic(@PathVariable("tid") long tId, HttpSession session) {
 		List<Course> courses = courseService.findAllCourses(session);
 		List<Module> modules = new ArrayList<Module>();
 		List<Lesson> lessons = new ArrayList<Lesson>();

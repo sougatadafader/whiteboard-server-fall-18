@@ -2,10 +2,10 @@ package com.example.whiteboardfall2018serverjava.models;
 
 
 public class Topic {
-	private int id;
+	private long id;
 	private String title;
 
-	public Topic(int i, String string) {
+	public Topic(long i, String string) {
 		id = i;
 		title = string;
 	}
@@ -13,11 +13,11 @@ public class Topic {
 	public Topic() {
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

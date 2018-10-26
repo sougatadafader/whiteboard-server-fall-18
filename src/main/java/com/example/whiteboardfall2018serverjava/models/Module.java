@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Module {
-	  private int id;
+	  private long id;
 	  private String title;
 	  private List<Lesson> lessons = new ArrayList<Lesson>();
 	  
-	public Module(int i, String string) {
+	public Module(long i, String string) {
 		id = i; title = string;
 	}
 	public Module() {}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public List<Lesson> getLessons() {
@@ -21,7 +21,7 @@ public class Module {
 	public void setLessons(List<Lesson> lessons) {
 		this.lessons = lessons;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getTitle() {

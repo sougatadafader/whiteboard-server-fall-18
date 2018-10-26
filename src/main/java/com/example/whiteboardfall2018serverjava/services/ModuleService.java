@@ -27,13 +27,18 @@ public class ModuleService {
 	private List<Module> modules = new ArrayList<Module>();
 
 	@GetMapping("/api/course/{courseId}/module")
-	public List<Module> findModulesForCourse(@PathVariable("courseId") int courseId,HttpSession session) {
+	public List<Module> findModulesForCourse(@PathVariable("courseId") long courseId,HttpSession session) {
 		Course course = courseService.findCourseById(courseId,session);
 		if (modules.isEmpty()) {
-			Module m1 = new Module(123, "Module 1");
-			Module m2 = new Module(234, "Module 2");
+			Module m1 = new Module(System.currentTimeMillis() , "Module 1");
+			Module m2 = new Module(System.currentTimeMillis() , "Module 2");
 			modules.add(m1);
-			modules.add(m2);
+			/*LessonService l1 = new LessonService();
+			l1.findLessonsForModule(m1.getId(), session);
+			modules.add(m1);
+			LessonService l2 = new LessonService();
+			l2.findLessonsForModule(m2.getId(), session);
+			modules.add(m2);*/
 			course.setModules(modules);
 			return modules;
 		}
@@ -44,18 +49,18 @@ public class ModuleService {
 	}
 
 	@PostMapping("/api/course/{courseId}/module")
-	public List<Module> createModule(@RequestBody Module module, @PathVariable("courseId") int courseId,HttpSession session) {
+	public List<Module> createModule(@RequestBody Module module, @PathVariable("courseId") long courseId,HttpSession session) {
 		Course course = courseService.findCourseById(courseId,session);
 		modules = course.getModules();
-		int uId = (int) System.currentTimeMillis();
-		module.setId(uId);
+		
+		module.setId(System.currentTimeMillis());
 		modules.add(module);
 		return modules;
 	}
 
 	/* Retrieves Module whose id is mid */
 	@GetMapping("/api/module/{mid}")
-	public Module findModuleById(@PathVariable("mid") int mid, HttpSession session) {
+	public Module findModuleById(@PathVariable("mid") long mid, HttpSession session) {
 		List<Course> courses = courseService.findAllCourses(session);
 		Module reqdModule = null;
 		for (Course c : courses) {
@@ -72,7 +77,7 @@ public class ModuleService {
 
 	/* Updates Module whose id is mid */
 	@PutMapping("/api/module/{mid}")
-	public Module updateCourse(@PathVariable("mid") int mid, @RequestBody Module module, HttpSession session) {
+	public Module updateModule(@PathVariable("mid") long mid, @RequestBody Module module, HttpSession session) {
 
 		List<Course> courses = courseService.findAllCourses(session);
 		int ctr = 0;
@@ -94,7 +99,7 @@ public class ModuleService {
 	}
 	/* Deletes Module whose id is mid */
 	@DeleteMapping("/api/module/{mid}")
-	public void deleteModule(@PathVariable("mid") int mid, HttpSession session) {
+	public void deleteModule(@PathVariable("mid") long mid, HttpSession session) {
 		List<Course> courses = courseService.findAllCourses(session);
 		Module reqdModule = null;
 		for (Course c : courses) {
